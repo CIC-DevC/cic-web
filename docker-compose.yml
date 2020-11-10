@@ -1,0 +1,11 @@
+version: '3'
+services:
+  app:
+    image: registry.gitlab.com/mthub/client/web_company:stage
+    restart: always
+    ports:
+      - 6866:6868
+networks:
+  default:
+    external:
+      name: fmt

@@ -1,0 +1,32 @@
+.edit-form-container {
+  width: 100%;
+  padding: 20px;
+  -webkit-transform: none;
+  transform: none;
+  left: 0;
+  position: relative;
+  margin: 0 auto;
+  min-width: 600px;
+}
+.edit-form-header {
+  padding: 20px 20px 10px;
+}
+.edit-form-header .edit-form-title {
+  line-height: 24px;
+  font-size: 18px;
+  color: #303133;
+}
+.edit-form-main {
+  padding: 30px 20px;
+  color: #606266;
+  font-size: 14px;
+}
+.edit-form-footer {
+  padding: 10px 20px 20px;
+  text-align: right;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.viewOnly {
+  pointer-events: none;
+}
