@@ -9,6 +9,7 @@ import userRole from '@/constants/userRole';
 
 import accountRouter from './modules/account';
 import manageContentRouter from './modules/manageContent';
+import viewReportRouter from './modules/viewReport';
 /** note: Submenu only appear when children.length>=1
  **/
 
@@ -87,6 +88,7 @@ export const constantRouters = [
 
 export const asyncRouters = [
   accountRouter,
+  viewReportRouter,
   manageContentRouter,
   { path: '*', redirect: '/404', hidden: true },
 ];
