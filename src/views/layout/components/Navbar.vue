@@ -9,6 +9,21 @@
 
     <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
 
+    <div class="search-container">
+      <el-input
+        v-model="phoneNumberSearch"
+        :placeholder="$t('navbar.phoneSearchPlaceholder')"
+        prefix-icon="el-icon-search"
+        size="small"
+        class="search-box"
+        @keyup.enter.native="handleSearch"
+      >
+        <el-button slot="append" @click="handleSearch">{{
+          $t('button.check')
+        }}</el-button>
+      </el-input>
+    </div>
+
     <div class="right-menu">
       <el-dropdown
         class="avatar-container right-menu-item hover-effect"
@@ -52,6 +67,11 @@ export default {
     Breadcrumb,
     Hamburger,
   },
+  data() {
+    return {
+      phoneNumberSearch: '',
+    };
+  },
   computed: {
     ...mapGetters(['sidebar', 'user', 'device']),
   },
@@ -70,6 +90,7 @@ export default {
         })
         .catch(() => {});
     },
+    handleSearch() {},
   },
 };
 </script>
@@ -82,11 +103,11 @@ export default {
   background: #fff;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
   margin-bottom: 0px;
+  display: flex;
 
   .hamburger-container {
     line-height: 46px;
     height: 100%;
-    float: left;
     cursor: pointer;
     transition: background 0.3s;
     -webkit-tap-highlight-color: transparent;
@@ -97,11 +118,10 @@ export default {
   }
 
   .breadcrumb-container {
-    float: left;
+    min-width: 200px;
   }
 
   .right-menu {
-    float: right;
     height: 100%;
     line-height: 50px;
 
@@ -135,6 +155,20 @@ export default {
         align-items: center;
         font-size: 14px;
       }
+    }
+  }
+
+  .search-container {
+    flex-grow: 1;
+    margin: 0px 30px 0px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .search-box {
+      min-width: 100px;
+      max-width: 800px;
+      margin-right: 20px;
     }
   }
 }

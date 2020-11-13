@@ -1,17 +1,10 @@
 <template>
   <div class="app-container">
-    <span>abc</span>
+    <span>Developing</span>
   </div>
 </template>
 
 <script>
-const listReports = [
-  {
-    id: 1,
-    date: new Date(2020),
-  },
-];
-
 import dayjs from 'dayjs';
 import { toStringDate } from '@/utils/datetime';
 

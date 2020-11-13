@@ -4,19 +4,19 @@ import userRole from '@/constants/userRole';
 const viewReportRouter = {
   path: '/view_report',
   component: Layout,
+  name: 'viewReport',
   redirect: '/view_report',
   meta: {
     roles: [userRole.ADMIN],
+    title: 'viewReport.title',
   },
   children: [
     {
       path: '',
-      name: 'viewReport',
-
       component: () => import('@/views/viewReport/index.vue'),
       meta: {
         title: 'viewReport.title',
-        icon: 'tasks',
+        icon: 'chart-area',
       },
     },
   ],

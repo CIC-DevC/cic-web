@@ -11,7 +11,9 @@
           <span>{{ toStringDate(item.date, 'MM/YYYY') }}</span>
         </div>
         <div class="label-report">
-          {{ `Bao cao thang ${toStringDate(item.date, 'MM/YYYY')}` }}
+          {{
+            $t('dashboard.label.report', [toStringDate(item.date, 'MM/YYYY')])
+          }}
         </div>
       </div>
     </div>
@@ -27,13 +29,6 @@
 </template>
 
 <script>
-const listReports = [
-  {
-    id: 1,
-    date: new Date(2020),
-  },
-];
-
 import Pagination from '@/components/Pagination';
 import dayjs from 'dayjs';
 import { toStringDate } from '@/utils/datetime';
@@ -69,7 +64,7 @@ export default {
     generateListReport() {
       this.listReports = [];
       const currentDate = dayjs();
-      for (let i = 0; i < 20; i++) {
+      for (let i = 1; i < 40; i++) {
         this.listReports.push({
           id: i,
           date: currentDate.subtract(i, 'month').toDate(),
