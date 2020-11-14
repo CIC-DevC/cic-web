@@ -55,23 +55,23 @@ export default {
     const phoneNumber = to.params.phoneNumber;
     if (phoneNumber && validatePhoneNumberVietnam(phoneNumber)) {
       const phoneNumberFormat = formatPhoneNumberVietNam(phoneNumber);
-      next((vm) => {
-        vm.isError = false;
-        vm.phoneNumber = phoneNumberFormat;
-      });
-      //   getUserDetail(phoneNumberFormat)
-      //     .then((response) => {
-      //       next((vm) => {
-      //         vm.isError = false;
-      //         vm.phoneNumber = phoneNumberFormat;
-      //       });
-      //     })
-      //     .catch(() => {
-      //       next((vm) => {
-      //         vm.isError = true;
-      //         vm.messageError = 'Không thể tải dữ liệu';
-      //       });
-      //     });
+      // next((vm) => {
+      //   vm.isError = false;
+      //   vm.phoneNumber = phoneNumberFormat;
+      // });
+      getUserDetail(phoneNumberFormat)
+        .then((response) => {
+          next((vm) => {
+            vm.isError = false;
+            vm.phoneNumber = phoneNumberFormat;
+          });
+        })
+        .catch(() => {
+          next((vm) => {
+            vm.isError = true;
+            vm.messageError = 'Không thể tải dữ liệu';
+          });
+        });
     } else {
       next((vm) => {
         vm.isError = true;
