@@ -7,3 +7,10 @@ import request from '@/utils/request';
 //     data: data,
 //   });
 // }
+
+export function getUserDetail(phoneNumber) {
+  return request({
+    url: `/api/search/${phoneNumber}`,
+    method: 'get',
+  });
+}

@@ -5,7 +5,7 @@ const searchInfoRouter = {
   path: '/search_info',
   component: Layout,
   redirect: '/search_info',
-  name: 'search_info',
+  name: 'searchInfo',
   meta: {
     title: 'searchInfo.title',
     icon: 'search',
@@ -26,10 +26,11 @@ const searchInfoRouter = {
           },
         },
         {
-          path: 'result',
-          component: () => import('@/views/searchInfo/result'),
+          path: 'user_detail/:phoneNumber',
+          name: 'searchInfo.userDetail',
+          component: () => import('@/views/userDetail/index'),
           meta: {
-            title: 'searchInfo.result',
+            title: 'searchInfo.userDetail',
             noCache: true,
           },
         },

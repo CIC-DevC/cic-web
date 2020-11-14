@@ -1,4 +1,5 @@
 import Compressor from 'compressorjs';
+import { validatePhoneNumberVietnam } from './validate';
 
 export function parseTime(time, cFormat) {
   if (arguments.length === 0) {
@@ -61,4 +62,18 @@ export function compressImage(vm, file, option) {
       ...option,
     });
   });
+}
+
+export function formatPhoneNumberVietNam(phoneNumber) {
+  if (phoneNumber && validatePhoneNumberVietnam(phoneNumber)) {
+    if (phoneNumber.startsWith('0')) {
+      return '84' + phoneNumber.substring(1);
+    } else if (phoneNumber.startsWith('+84')) {
+      return phoneNumber.substring(1);
+    } else {
+      return phoneNumber;
+    }
+  } else {
+    return phoneNumber;
+  }
 }

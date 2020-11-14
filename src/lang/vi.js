@@ -17,7 +17,7 @@
     },
     searchInfo: {
       title: 'Truy vấn thông tin',
-      result: 'Kết quả',
+      userDetail: 'Thông tin cá nhân',
     },
   },
   navbar: {

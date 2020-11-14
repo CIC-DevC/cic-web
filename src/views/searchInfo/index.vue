@@ -8,14 +8,19 @@
         label-width="120px"
         label-position="top"
         :rules="rules"
+        size="small"
         class="search-form"
       >
-        <el-form-item label="Số điện thoại">
-          <el-input v-model="form.phone"></el-input>
-        </el-form-item>
-
         <el-row>
-          <el-col :span="15">
+          <el-col :span="6">
+            <el-form-item label="Số điện thoại">
+              <el-input v-model="form.phone"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="2">
+            &nbsp;
+          </el-col>
+          <el-col :span="7">
             <el-form-item label="Thành phố">
               <el-select
                 v-model="form.city"
@@ -104,100 +109,92 @@
         </el-row>
       </el-form>
     </div>
-    <div v-if="isShowResult" class="result-container">
+    <div class="result-container">
       <el-divider content-position="left">Kết quả kiểm tra</el-divider>
       <div style="margin-top:40px">
-        <div
-          v-if="result.total === 0"
-          style="text-align: center; font-size: 14px"
+        <el-table
+          v-loading="loading"
+          :key="result.tableKey"
+          :data="result.list"
+          border
+          fit
+          highlight-current-row
+          style="width: 100%; min-width: 800px;"
+          class="content-table"
         >
-          <span>Không có kết quả phù hợp</span>
-        </div>
-        <div v-else>
-          <el-table
-            v-loading="loading"
-            :key="result.tableKey"
-            :data="result.list"
-            border
-            fit
-            highlight-current-row
-            style="width: 100%; min-width: 800px;"
-            class="content-table"
+          <el-table-column label="#" align="center" :min-width="4">
+            <template slot-scope="scope">
+              <span>{{ showIndex(scope.$index) }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="'Thuê bao'" :min-width="12">
+            <template slot-scope="scope">
+              <a :href="'#'" target="_blank" class="link-type">
+                {{ scope.row.title }}
+              </a>
+            </template>
+          </el-table-column>
+          <el-table-column :label="'Thành phố'" :min-width="12">
+            <template slot-scope="scope">
+              <span>{{ scope.row.contentTypeName }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="'Quận, huyện'" :min-width="12">
+            <template slot-scope="scope">
+              <span v-if="scope.row.created_at">
+                {{
+                  toStringDate(
+                    scope.row.created_at,
+                    $t('common.formatDateTimeMoment')
+                  )
+                }}
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="'Năm sinh'" :min-width="12">
+            <template slot-scope="scope">
+              <span>{{ scope.row.contentTypeName }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="'COL_17'" :min-width="12">
+            <template slot-scope="scope">
+              <span>{{ scope.row.contentTypeName }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="'COL_18'" :min-width="12">
+            <template slot-scope="scope">
+              <span>{{ scope.row.contentTypeName }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="'Điểm tín dụng'" :min-width="12">
+            <template slot-scope="scope">
+              <span>{{ scope.row.contentTypeName }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            class-name="small-padding"
+            :min-width="12"
           >
-            <el-table-column label="#" align="center" :min-width="4">
-              <template slot-scope="scope">
-                <span>{{ showIndex(scope.$index) }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column :label="'Thuê bao'" :min-width="12">
-              <template slot-scope="scope">
-                <a :href="'#'" target="_blank" class="link-type">
-                  {{ scope.row.title }}
-                </a>
-              </template>
-            </el-table-column>
-            <el-table-column :label="'Thành phố'" :min-width="12">
-              <template slot-scope="scope">
-                <span>{{ scope.row.contentTypeName }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column :label="'Quận, huyện'" :min-width="12">
-              <template slot-scope="scope">
-                <span v-if="scope.row.created_at">
-                  {{
-                    toStringDate(
-                      scope.row.created_at,
-                      $t('common.formatDateTimeMoment')
-                    )
-                  }}
-                </span>
-              </template>
-            </el-table-column>
-            <el-table-column :label="'Năm sinh'" :min-width="12">
-              <template slot-scope="scope">
-                <span>{{ scope.row.contentTypeName }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column :label="'COL_17'" :min-width="12">
-              <template slot-scope="scope">
-                <span>{{ scope.row.contentTypeName }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column :label="'COL_18'" :min-width="12">
-              <template slot-scope="scope">
-                <span>{{ scope.row.contentTypeName }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column :label="'Điểm tín dụng'" :min-width="12">
-              <template slot-scope="scope">
-                <span>{{ scope.row.contentTypeName }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              align="center"
-              class-name="small-padding"
-              :min-width="12"
-            >
-              <template slot-scope="scope">
-                <el-tooltip
-                  :content="'Chi tiết'"
-                  placement="bottom"
-                  :open-delay="500"
-                >
-                  <el-button size="small" icon="el-icon-info" plain></el-button>
-                </el-tooltip>
-              </template>
-            </el-table-column>
-          </el-table>
+            <template slot-scope="scope">
+              <el-tooltip
+                :content="'Chi tiết'"
+                placement="bottom"
+                :open-delay="500"
+              >
+                <el-button size="small" icon="el-icon-info" plain></el-button>
+              </el-tooltip>
+            </template>
+          </el-table-column>
+        </el-table>
 
-          <pagination
-            v-show="result.total > 0"
-            :total="result.total"
-            :page.sync="result.listQuery.page"
-            :limit.sync="result.listQuery.size"
-            @pagination="getListResultPaging"
-          />
-        </div>
+        <pagination
+          v-show="result.total > 0"
+          :total="result.total"
+          :page.sync="result.listQuery.page"
+          :limit.sync="result.listQuery.size"
+          @pagination="getListResultPaging"
+        />
       </div>
     </div>
   </div>
@@ -241,12 +238,11 @@ export default {
         birthYear: [{ validator: checkBirthYear, trigger: 'blur' }],
       },
       loading: false,
-      isShowResult: false,
       result: {
         tableKey: 0,
         listAll: [],
         list: [],
-        total: 1,
+        total: 0,
         listQuery: {
           page: 1,
           size: 20,

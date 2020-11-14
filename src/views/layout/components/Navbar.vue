@@ -61,6 +61,9 @@
 import { mapGetters } from 'vuex';
 import Breadcrumb from '@/components/Breadcrumb';
 import Hamburger from '@/components/Hamburger';
+import { getUserDetail } from '@/api/user';
+import { invalidNotify } from '@/utils/notices';
+import { validatePhoneNumberVietnam } from '@/utils/validate';
 
 export default {
   components: {
@@ -90,7 +93,19 @@ export default {
         })
         .catch(() => {});
     },
-    handleSearch() {},
+    handleSearch() {
+      if (
+        !this.phoneNumberSearch ||
+        !validatePhoneNumberVietnam(this.phoneNumberSearch)
+      ) {
+        invalidNotify(this, 'Vui lòng nhập số điện thoại hợp lệ');
+      } else {
+        this.$router.push({
+          name: 'searchInfo.userDetail',
+          params: { phoneNumber: this.phoneNumberSearch },
+        });
+      }
+    },
   },
 };
 </script>

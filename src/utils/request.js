@@ -17,13 +17,15 @@ const pending = {};
 service.interceptors.request.use(
   (config) => {
     // Do something before request is sent
-    if (store.getters.token) {
-      config.headers['Authorization'] = 'Bearer ' + getToken();
-    }
+    // if (store.getters.token) {
+    //   config.headers['Authorization'] = 'Bearer ' + getToken();
+    // }
     // config.cancelToken = new CancelToken((c) => {
     // need to implement
     // removePending(config, c)
     // })
+
+    // config.headers['Access-Control-Allow-Origin'] = '*';
     return config;
   },
   (error) => {
