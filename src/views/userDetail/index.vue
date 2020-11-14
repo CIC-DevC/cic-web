@@ -30,6 +30,15 @@
           </tr>
         </table>
       </div>
+      <div class="history_container">
+        <el-tabs>
+          <el-tab-pane label="Lịch sử điểm cá nhân">User</el-tab-pane>
+          <el-tab-pane label="Lịch sử vay nợ">Config</el-tab-pane>
+          <el-tab-pane label="Lịch sử thanh toán thẻ">Role</el-tab-pane>
+          <el-tab-pane label="Lịch sử cuộc gọi">Task</el-tab-pane>
+          <el-tab-pane label="Lịch sử dùng Internet">Task</el-tab-pane>
+        </el-tabs>
+      </div>
     </div>
   </div>
 </template>
@@ -46,23 +55,23 @@ export default {
     const phoneNumber = to.params.phoneNumber;
     if (phoneNumber && validatePhoneNumberVietnam(phoneNumber)) {
       const phoneNumberFormat = formatPhoneNumberVietNam(phoneNumber);
-      //   next((vm) => {
-      //     vm.isError = false;
-      //     vm.phoneNumber = phoneNumberFormat;
-      //   });
-      getUserDetail(phoneNumberFormat)
-        .then((response) => {
-          next((vm) => {
-            vm.isError = false;
-            vm.phoneNumber = phoneNumberFormat;
-          });
-        })
-        .catch(() => {
-          next((vm) => {
-            vm.isError = true;
-            vm.messageError = 'Không thể tải dữ liệu';
-          });
-        });
+      next((vm) => {
+        vm.isError = false;
+        vm.phoneNumber = phoneNumberFormat;
+      });
+      //   getUserDetail(phoneNumberFormat)
+      //     .then((response) => {
+      //       next((vm) => {
+      //         vm.isError = false;
+      //         vm.phoneNumber = phoneNumberFormat;
+      //       });
+      //     })
+      //     .catch(() => {
+      //       next((vm) => {
+      //         vm.isError = true;
+      //         vm.messageError = 'Không thể tải dữ liệu';
+      //       });
+      //     });
     } else {
       next((vm) => {
         vm.isError = true;
@@ -87,7 +96,10 @@ export default {
 <style rel="stylesheet/scss" lang="scss" scoped>
 .info-container {
   .info-col-left {
-    padding-right: 30px;
+    padding-right: 100px;
   }
+}
+.history_container {
+  margin-top: 40px;
 }
 </style>
