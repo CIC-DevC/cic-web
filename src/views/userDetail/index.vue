@@ -9,7 +9,7 @@
           <tr>
             <td colspan="2">
               <span>{{ 'Thông tin của thuê bao: ' }}</span>
-              <span style="font-weight: bold">{{ phoneNumber }}</span>
+              <span style="font-weight: bold">{{ data.phoneNum }}</span>
             </td>
           </tr>
           <tr>
@@ -18,25 +18,37 @@
           </tr>
           <tr>
             <td class="info-col-left">Năm sinh</td>
-            <td>1998</td>
+            <td>{{ data.birthyear }}</td>
           </tr>
           <tr>
             <td class="info-col-left">COL_17</td>
-            <td>10/10/2020</td>
+            <td>
+              {{ toStringDate(data.col17, $t('common.formatDateMoment')) }}
+            </td>
           </tr>
           <tr>
             <td class="info-col-left">COL_18</td>
-            <td>10/10/2020</td>
+            <td>
+              {{ toStringDate(data.col18, $t('common.formatDateMoment')) }}
+            </td>
           </tr>
         </table>
       </div>
       <div class="history_container">
         <el-tabs>
-          <el-tab-pane label="Lịch sử điểm cá nhân">User</el-tab-pane>
-          <el-tab-pane label="Lịch sử vay nợ">Config</el-tab-pane>
-          <el-tab-pane label="Lịch sử thanh toán thẻ">Role</el-tab-pane>
-          <el-tab-pane label="Lịch sử cuộc gọi">Task</el-tab-pane>
-          <el-tab-pane label="Lịch sử dùng Internet">Task</el-tab-pane>
+          <el-tab-pane label="Lịch sử điểm cá nhân">
+            <HistoryScore />
+          </el-tab-pane>
+          <el-tab-pane label="Lịch sử vay nợ">
+            <HistoryLoan :data="data" />
+          </el-tab-pane>
+          <el-tab-pane label="Lịch sử thanh toán thẻ">
+            <HistoryRecharge />
+          </el-tab-pane>
+          <el-tab-pane label="Lịch sử cuộc gọi">Chưa phát triển</el-tab-pane>
+          <el-tab-pane label="Lịch sử dùng Internet"
+            >Chưa phát triển</el-tab-pane
+          >
         </el-tabs>
       </div>
     </div>
@@ -44,32 +56,35 @@
 </template>
 
 <script>
-import dayjs from 'dayjs';
 import { toStringDate } from '@/utils/datetime';
 import { validatePhoneNumberVietnam } from '@/utils/validate';
 import { formatPhoneNumberVietNam } from '@/utils/index';
 import { getUserDetail } from '@/api/user';
+import HistoryScore from './historyScore';
+import HistoryLoan from './historyLoan';
+import HistoryRecharge from './historyRecharge';
 
 export default {
+  components: { HistoryScore, HistoryLoan, HistoryRecharge },
+  name: 'UserDetail',
   beforeRouteEnter(to, from, next) {
     const phoneNumber = to.params.phoneNumber;
     if (phoneNumber && validatePhoneNumberVietnam(phoneNumber)) {
-      const phoneNumberFormat = formatPhoneNumberVietNam(phoneNumber);
-      // next((vm) => {
-      //   vm.isError = false;
-      //   vm.phoneNumber = phoneNumberFormat;
-      // });
-      getUserDetail(phoneNumberFormat)
+      getUserDetail(formatPhoneNumberVietNam(phoneNumber))
         .then((response) => {
-          next((vm) => {
-            vm.isError = false;
-            vm.phoneNumber = phoneNumberFormat;
-          });
+          if (response && response.data) {
+            next((vm) => {
+              vm.setData(response.data);
+            });
+          } else {
+            next((vm) => {
+              vm.setData(null);
+            });
+          }
         })
         .catch(() => {
           next((vm) => {
-            vm.isError = true;
-            vm.messageError = 'Không thể tải dữ liệu';
+            vm.setData(null);
           });
         });
     } else {
@@ -79,17 +94,26 @@ export default {
       });
     }
   },
-  components: {},
-  name: 'UserDetail',
   data() {
     return {
       isError: false,
       messageError: '',
-      phoneNumber: '',
+      data: {},
     };
   },
   created() {},
-  methods: {},
+  methods: {
+    toStringDate,
+    setData(data) {
+      if (data) {
+        this.isError = false;
+        this.data = data;
+      } else {
+        this.isError = true;
+        this.messageError = 'Không thể tải dữ liệu';
+      }
+    },
+  },
 };
 </script>
 

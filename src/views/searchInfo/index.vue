@@ -201,7 +201,6 @@
 </template>
 
 <script>
-import dayjs from 'dayjs';
 import { toStringDate } from '@/utils/datetime';
 import Pagination from '@/components/Pagination';
 import CityDistrictData from './city_district_data';

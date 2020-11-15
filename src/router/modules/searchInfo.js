@@ -11,30 +11,25 @@ const searchInfoRouter = {
     icon: 'search',
     roles: [userRole.ADMIN],
   },
+
   children: [
     {
       path: '',
-      component: () => import('@/router/nested'),
-      redirect: '/search_info',
+      component: () => import('@/views/searchInfo/index'),
+      meta: {
+        noCache: true,
+      },
       hidden: true,
-      children: [
-        {
-          path: '',
-          component: () => import('@/views/searchInfo/index'),
-          meta: {
-            noCache: true,
-          },
-        },
-        {
-          path: 'user_detail/:phoneNumber',
-          name: 'searchInfo.userDetail',
-          component: () => import('@/views/userDetail/index'),
-          meta: {
-            title: 'searchInfo.userDetail',
-            noCache: true,
-          },
-        },
-      ],
+    },
+    {
+      path: 'user_detail/:phoneNumber',
+      name: 'searchInfo.userDetail',
+      component: () => import('@/views/userDetail/index'),
+      meta: {
+        title: 'searchInfo.userDetail',
+        noCache: true,
+      },
+      hidden: true,
     },
   ],
 };
