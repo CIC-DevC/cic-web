@@ -8,9 +8,10 @@ import Layout from '@/views/layout/Layout';
 import userRole from '@/constants/userRole';
 
 import accountRouter from './modules/account';
-import manageContentRouter from './modules/manageContent';
 import viewReportRouter from './modules/viewReport';
 import searchInfoRouter from './modules/searchInfo';
+import manageFeedbackRouter from './modules/manageFeedback';
+import contactRouter from './modules/contact';
 /** note: Submenu only appear when children.length>=1
  **/
 
@@ -91,7 +92,8 @@ export const asyncRouters = [
   accountRouter,
   viewReportRouter,
   searchInfoRouter,
-  manageContentRouter,
+  manageFeedbackRouter,
+  contactRouter,
   { path: '*', redirect: '/404', hidden: true },
 ];
 

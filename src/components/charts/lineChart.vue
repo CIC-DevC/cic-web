@@ -64,8 +64,8 @@ export default {
       default: () => [],
     },
     title: {
-      type: Array,
-      default: () => [],
+      type: String,
+      default: '',
     },
   },
   watch: {

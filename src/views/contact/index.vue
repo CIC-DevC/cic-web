@@ -9,7 +9,7 @@ import { toStringDate } from '@/utils/datetime';
 
 export default {
   components: {},
-  name: 'ViewReport',
+  name: 'Contact',
   data() {
     return {};
   },

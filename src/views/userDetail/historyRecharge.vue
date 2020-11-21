@@ -3,35 +3,35 @@
     <div class="info-container">
       <table>
         <tr>
-          <td class="info-col-left">Tổng thanh toán thẻy</td>
-          <td>0.001</td>
+          <td class="info-col-left">Tổng thanh toán thẻ</td>
+          <td>{{ formatCurrency(1500000) }}</td>
         </tr>
         <tr>
           <td class="info-col-left">Lần thanh toán lớn nhất</td>
-          <td>{{ '' }}</td>
+          <td>{{ formatCurrency(500000) }}</td>
         </tr>
         <tr>
           <td class="info-col-left">Lần thanh toán nhỏ nhất</td>
           <td>
-            {{ '' }}
+            {{ formatCurrency(20000) }}
           </td>
         </tr>
         <tr>
           <td class="info-col-left">Số lần thanh toán</td>
           <td>
-            {{ '' }}
+            {{ 12 }}
           </td>
         </tr>
         <tr>
           <td class="info-col-left">Số lần thanh toán loại V</td>
           <td>
-            {{ '' }}
+            {{ 6 }}
           </td>
         </tr>
         <tr>
           <td class="info-col-left">Số lần thanh toán loại C</td>
           <td>
-            {{ '' }}
+            {{ 6 }}
           </td>
         </tr>
       </table>
@@ -54,20 +54,20 @@
         </el-table-column>
         <el-table-column :label="'Loại vay nợ'" :min-width="16">
           <template slot-scope="scope">
-            {{ scope.row.title }}
+            {{ scope.row.typeRecharge }}
           </template>
         </el-table-column>
         <el-table-column :label="'Khoản vay'" :min-width="30">
           <template slot-scope="scope">
-            <span>{{ scope.row.contentTypeName }}</span>
+            <span>{{ formatCurrency(scope.row.recharge) }}</span>
           </template>
         </el-table-column>
         <el-table-column :label="'Thời điểm tạo'" :min-width="25">
           <template slot-scope="scope">
-            <span v-if="scope.row.created_at">
+            <span v-if="scope.row.createdTime">
               {{
                 toStringDate(
-                  scope.row.created_at,
+                  scope.row.createdTime,
                   $t('common.formatDateTimeMoment')
                 )
               }}
@@ -76,7 +76,14 @@
         </el-table-column>
         <el-table-column :label="'Lần cập nhật cuối cùng'" :min-width="25">
           <template slot-scope="scope">
-            <span>{{ scope.row.contentTypeName }}</span>
+            <span v-if="scope.row.updatedTime">
+              {{
+                toStringDate(
+                  scope.row.createdTime,
+                  $t('common.formatDateTimeMoment')
+                )
+              }}
+            </span>
           </template>
         </el-table-column>
       </el-table>
@@ -95,6 +102,8 @@
 <script>
 import { toStringDate } from '@/utils/datetime';
 import Pagination from '@/components/Pagination';
+import { formatCurrency } from '@/utils/number';
+import dayjs from 'dayjs';
 
 export default {
   components: { Pagination },
@@ -111,13 +120,48 @@ export default {
       total: 0,
       listQuery: {
         page: 1,
-        size: 20,
+        size: 5,
       },
+      listAll: [],
     };
   },
-  created() {},
+  created() {
+    this.generateListAll();
+    this.getList();
+  },
   methods: {
-    getList() {},
+    toStringDate,
+    formatCurrency,
+    getList() {
+      this.total = this.listAll.length;
+      this.list = this.listAll.slice(
+        (this.listQuery.page - 1) * this.listQuery.size,
+        this.listQuery.page * this.listQuery.size
+      );
+    },
+    generateListAll() {
+      this.listAll = [];
+      const currentDate = dayjs();
+      for (let i = 0; i < 20; i++) {
+        this.listAll.push({
+          id: i,
+          typeRecharge: Math.round(Math.random()) ? 'C' : 'V',
+          recharge: 50000,
+          createdTime: dayjs()
+            .subtract('5', 'day')
+            .toDate(),
+          updatedTime: dayjs()
+            .subtract('1', 'day')
+            .toDate(),
+        });
+      }
+    },
+    showIndex(index) {
+      if (this.listQuery) {
+        return (this.listQuery.page - 1) * this.listQuery.size + index + 1;
+      }
+      return index + 1;
+    },
   },
 };
 </script>

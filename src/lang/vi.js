@@ -3,11 +3,6 @@
     page401: '401',
     page404: '404',
     dashboard: 'Trang chủ',
-    createContent: 'Tạo bài viết',
-    manageContent: {
-      title: 'Quản lý bài viết',
-      edit: 'Chỉnh sửa bài viết',
-    },
     account: {
       title: 'Cài đặt tài khoản',
       profile: 'Thông tin tài khoản',
@@ -18,6 +13,12 @@
     searchInfo: {
       title: 'Truy vấn thông tin',
       userDetail: 'Thông tin cá nhân',
+    },
+    manageFeedback: {
+      title: 'Quản lý phản hồi',
+    },
+    contact: {
+      title: 'Liên hệ',
     },
   },
   navbar: {
@@ -204,23 +205,6 @@
       message: {
         changeCoverSuccess: 'Thay đổi ảnh bìa thành công',
       },
-    },
-  },
-  manageContent: {
-    placeholder: {
-      title: 'Nhập tiêu đề bài viết',
-      contentType: 'Chọn loại bài viết',
-      contentStatus: 'Chọn trạng thái',
-    },
-    label: {
-      title: 'Tiêu đề',
-      contentType: 'Loại bài viết',
-      createdAt: 'Thời gian tạo',
-      status: 'Trạng thái',
-    },
-    button: {
-      info: 'Thông tin',
-      remove: 'Gỡ',
     },
   },
   dashboard: {

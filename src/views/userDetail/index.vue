@@ -14,7 +14,7 @@
           </tr>
           <tr>
             <td class="info-col-left">Điểm tín dụng</td>
-            <td>0.001</td>
+            <td>0.00222021</td>
           </tr>
           <tr>
             <td class="info-col-left">Năm sinh</td>

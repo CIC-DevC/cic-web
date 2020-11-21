@@ -43,7 +43,7 @@ export default {
       listLoading: false,
       listQuery: {
         page: 1,
-        size: 6,
+        size: 5,
       },
       listReports: [],
     };
