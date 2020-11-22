@@ -6,12 +6,10 @@
   "license": "",
   "scripts": {
     "dev": "cross-env BABEL_ENV=development webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
-    "build:prod": "cross-env NODE_ENV=production env_config=prod node build/build.js",
+    "build": "cross-env NODE_ENV=production env_config=prod node build/build.js",
     "lint": "eslint --ext .js,.vue src; exit 0",
     "test": "npm run lint",
     "precommit": "lint-staged",
-    "freshtall": "npm cache clean --force && rm -rf node_modules && rm -f package-lock.json && npm install",
-    "postinstall": "npm run build:prod",
     "start": "node server.js"
   },
   "lint-staged": {
