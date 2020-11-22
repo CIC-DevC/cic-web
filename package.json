@@ -10,6 +10,7 @@
     "lint": "eslint --ext .js,.vue src; exit 0",
     "test": "npm run lint",
     "precommit": "lint-staged",
+    "freshtall": "npm cache clean --force && rm -rf node_modules && rm -f package-lock.json && npm install",
     "postinstall": "npm run build:prod",
     "start": "node server.js"
   },
