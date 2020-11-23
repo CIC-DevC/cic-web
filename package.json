@@ -9,7 +9,7 @@
     "lint": "eslint --ext .js,.vue src; exit 0",
     "test": "npm run lint",
     "precommit": "lint-staged",
-    "build": "npm install && node build/build.js && node server.js"
+    "build": "npm install && node build/build.js"
   },
   "lint-staged": {
     "src/**/*.{js,vue}": [
