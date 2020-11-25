@@ -74,7 +74,10 @@ export default {
     gotoReportDetail(reportItem) {
       this.$router.push({
         name: 'viewReport',
-        params: { reportItemId: reportItem.id },
+        query: {
+          year: reportItem.date.getFullYear(),
+          month: reportItem.date.getMonth(),
+        },
       });
     },
   },

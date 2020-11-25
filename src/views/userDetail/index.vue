@@ -14,7 +14,7 @@
           </tr>
           <tr>
             <td class="info-col-left">Điểm tín dụng</td>
-            <td>0.00222021</td>
+            <td>{{ data.score }}</td>
           </tr>
           <tr>
             <td class="info-col-left">Năm sinh</td>
@@ -37,18 +37,20 @@
       <div class="history_container">
         <el-tabs>
           <el-tab-pane label="Lịch sử điểm cá nhân">
-            <HistoryScore />
+            <HistoryScore :data="data" />
           </el-tab-pane>
           <el-tab-pane label="Lịch sử vay nợ">
             <HistoryLoan :data="data" />
           </el-tab-pane>
           <el-tab-pane label="Lịch sử thanh toán thẻ">
-            <HistoryRecharge />
+            <HistoryRecharge :data="data" />
           </el-tab-pane>
-          <el-tab-pane label="Lịch sử cuộc gọi">Chưa phát triển</el-tab-pane>
-          <el-tab-pane label="Lịch sử dùng Internet"
-            >Chưa phát triển</el-tab-pane
-          >
+          <el-tab-pane label="Lịch sử cuộc gọi">
+            <HistoryCall :data="data" />
+          </el-tab-pane>
+          <el-tab-pane label="Lịch sử dùng Internet">
+            <HistoryInternet :data="data" />
+          </el-tab-pane>
         </el-tabs>
       </div>
     </div>
@@ -63,9 +65,18 @@ import { getUserDetail } from '@/api/user';
 import HistoryScore from './historyScore';
 import HistoryLoan from './historyLoan';
 import HistoryRecharge from './historyRecharge';
+import HistoryCall from './historyCall';
+import HistoryInternet from './historyInternet';
+import data from '../searchInfo/city_district_data';
 
 export default {
-  components: { HistoryScore, HistoryLoan, HistoryRecharge },
+  components: {
+    HistoryScore,
+    HistoryLoan,
+    HistoryRecharge,
+    HistoryCall,
+    HistoryInternet,
+  },
   name: 'UserDetail',
   beforeRouteEnter(to, from, next) {
     const phoneNumber = to.params.phoneNumber;

@@ -14,3 +14,10 @@ export function getUserDetail(phoneNumber) {
     method: 'get',
   });
 }
+
+export function filterUser(keyword) {
+  return request({
+    url: `/api/filter/${keyword}`,
+    method: 'get',
+  });
+}

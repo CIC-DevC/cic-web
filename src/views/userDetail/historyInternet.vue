@@ -3,35 +3,27 @@
     <div class="info-container">
       <table>
         <tr>
-          <td class="info-col-left">Tổng thanh toán thẻ</td>
-          <td>{{ formatCurrency(data.sumRecharge || 0) }}</td>
+          <td class="info-col-left">Số lượng data đã sử dụng</td>
+          <td>{{ data.numUsedInternet || 0 }}</td>
         </tr>
         <tr>
-          <td class="info-col-left">Lần thanh toán lớn nhất</td>
-          <td>{{ formatCurrency(data.maxRecharge || 0) }}</td>
+          <td class="info-col-left">Số lượng data đã tải lên</td>
+          <td>{{ data.numUploadedInternet || 0 }}</td>
         </tr>
         <tr>
-          <td class="info-col-left">Lần thanh toán nhỏ nhất</td>
+          <td class="info-col-left">
+            Số lượng bạn dùng internet trong network
+          </td>
           <td>
-            {{ formatCurrency(data.minRecharge || 0) }}
+            {{ data.totalParnerInternet || 0 }}
           </td>
         </tr>
         <tr>
-          <td class="info-col-left">Số lần thanh toán</td>
-          <td>
-            {{ data.numRecharge || 0 }}
+          <td class="info-col-left">
+            ĐTB về tín dụng của bạn dùng internet trong network
           </td>
-        </tr>
-        <tr>
-          <td class="info-col-left">Số lần thanh toán loại V</td>
           <td>
-            {{ data.numVRecharge || 0 }}
-          </td>
-        </tr>
-        <tr>
-          <td class="info-col-left">Số lần thanh toán loại C</td>
-          <td>
-            {{ data.numCRecharge || 0 }}
+            {{ data.avgScoreOfPartner || 0 }}
           </td>
         </tr>
       </table>
@@ -52,34 +44,22 @@
             <span>{{ showIndex(scope.$index) }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="'Loại thanh toán'" :min-width="16">
+        <el-table-column :label="'Lượng data đã sử dụng'" :min-width="38">
           <template slot-scope="scope">
-            {{ scope.row.cOrV }}
+            {{ scope.row.usedData || 0 }}
           </template>
         </el-table-column>
-        <el-table-column :label="'Khoản thanh toán'" :min-width="30">
+        <el-table-column :label="'Lượng data đã tải lên'" :min-width="38">
           <template slot-scope="scope">
-            <span>{{ formatCurrency(scope.row.feeCharge) }}</span>
+            <span>{{ scope.row.uploadData || 0 }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="'Thời điểm tạo'" :min-width="25">
+        <el-table-column :label="'Ngày sử dụng internet'" :min-width="20">
           <template slot-scope="scope">
             <span v-if="scope.row.createdDate">
               {{
                 toStringDate(
                   scope.row.createdDate,
-                  $t('common.formatDateTimeMoment')
-                )
-              }}
-            </span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="'Lần cập nhật cuối cùng'" :min-width="25">
-          <template slot-scope="scope">
-            <span v-if="scope.row.modifiedDate">
-              {{
-                toStringDate(
-                  scope.row.modifiedDate,
                   $t('common.formatDateTimeMoment')
                 )
               }}
@@ -103,7 +83,6 @@
 import { toStringDate } from '@/utils/datetime';
 import Pagination from '@/components/Pagination';
 import { formatCurrency } from '@/utils/number';
-import dayjs from 'dayjs';
 
 export default {
   components: { Pagination },
@@ -150,9 +129,9 @@ export default {
       );
     },
     convertData(data) {
-      if (data && data.lstRecharge && data.lstRecharge.length > 0) {
-        this.listAll = data.lstRecharge;
-        this.total = data.lstRecharge.length;
+      if (data && data.lstInternet && data.lstInternet.length > 0) {
+        this.listAll = data.lstInternet;
+        this.total = data.lstInternet.length;
       } else {
         this.listAll = [];
         this.total = 0;

@@ -1,6 +1,32 @@
 <template>
   <div class="app-container">
-    <span>Developing</span>
+    <div class="header-report">
+      {{
+        $t('dashboard.label.report', [
+          toStringDate(this.currentMonth, 'MM/YYYY'),
+        ])
+      }}
+    </div>
+
+    <div class="tab-container">
+      <el-tabs>
+        <el-tab-pane label="Thông tin tổng quan">
+          <div style="display: flex; justify-content: center; padding: 20px">
+            <el-image src="static/images/report_1.png" fit="cover">
+              <div slot="placeholder" class="image-slot">
+                Đang tải<span class="dot">...</span>
+              </div>
+              <div slot="error" class="image-slot">
+                <i class="el-icon-picture-outline"></i>
+              </div>
+            </el-image>
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="Thông tin chi tiết">
+          <span>Developing</span>
+        </el-tab-pane>
+      </el-tabs>
+    </div>
   </div>
 </template>
 
@@ -10,12 +36,36 @@ import { toStringDate } from '@/utils/datetime';
 export default {
   components: {},
   name: 'ViewReport',
+  beforeRouteEnter(to, from, next) {
+    const year = to.query.year;
+    const month = to.query.month;
+    const date = new Date(year, month, 1);
+    if (date instanceof Date && !isNaN(date)) {
+      next((vm) => {
+        vm.currentMonth = date;
+      });
+    } else {
+      next();
+    }
+  },
   data() {
-    return {};
+    return {
+      currentMonth: new Date(),
+    };
   },
   created() {},
-  methods: {},
+  methods: {
+    toStringDate,
+  },
 };
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped></style>
+<style rel="stylesheet/scss" lang="scss" scoped>
+.header-report {
+  font-weight: 500;
+  font-size: 28px;
+  color: #303133;
+  padding: 0 0 20px 0;
+  text-align: center;
+}
+</style>

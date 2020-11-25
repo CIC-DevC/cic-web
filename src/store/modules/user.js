@@ -3,6 +3,7 @@ import { resetRouter } from '@/router';
 import router from '@/router';
 import { getToken, setToken, removeToken } from '@/utils/auth';
 import objUserType from '@/constants/userType';
+import { Message } from 'element-ui';
 const user = {
   state: {
     id: undefined,
@@ -28,26 +29,38 @@ const user = {
   actions: {
     login({ commit }, userinfo) {
       return new Promise((resolve, reject) => {
-        console.log('a');
-        const response = {
-          data: {
-            access_token: 'token123',
-            user: {
-              user_id: '123',
-              phoneNumber: '0123456789',
-              name: 'Admin',
-              user_type: objUserType.ADMIN,
-              roles: [1],
+        if (
+          userinfo &&
+          userinfo.email === 'cic@gmail.com' &&
+          userinfo.password === 'admin@123'
+        ) {
+          const response = {
+            data: {
+              access_token: 'token123',
+              user: {
+                user_id: '123',
+                phoneNumber: '0123456789',
+                name: 'Admin',
+                user_type: objUserType.ADMIN,
+                roles: [1],
+              },
             },
-          },
-        };
-        this.dispatch('grantToken', response.data)
-          .then(() => {
-            resolve();
-          })
-          .catch(() => {
-            reject();
+          };
+          this.dispatch('grantToken', response.data)
+            .then(() => {
+              resolve();
+            })
+            .catch(() => {
+              reject();
+            });
+        } else {
+          Message({
+            message: 'Email hoặc mật khẩu không đúng.',
+            type: 'error',
+            duration: 2 * 1000,
           });
+          reject();
+        }
 
         // login(userinfo.email, userinfo.password)
         //   .then((response) => {

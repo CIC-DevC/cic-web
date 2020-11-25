@@ -129,46 +129,60 @@
           </el-table-column>
           <el-table-column :label="'Thuê bao'" :min-width="12">
             <template slot-scope="scope">
-              <a :href="'#'" target="_blank" class="link-type">
-                {{ scope.row.title }}
-              </a>
+              <router-link
+                :to="{
+                  name: 'searchInfo.userDetail',
+                  params: { phoneNumber: scope.row.phoneNum },
+                }"
+                target="_blank"
+                class="link-type"
+              >
+                {{ scope.row.phoneNum }}
+              </router-link>
             </template>
           </el-table-column>
           <el-table-column :label="'Thành phố'" :min-width="12">
             <template slot-scope="scope">
-              <span>{{ scope.row.contentTypeName }}</span>
+              <span>{{ scope.row.cityId }}</span>
             </template>
           </el-table-column>
           <el-table-column :label="'Quận, huyện'" :min-width="12">
             <template slot-scope="scope">
-              <span v-if="scope.row.created_at">
+              <span>{{ scope.row.areaId }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="'Năm sinh'" :min-width="12">
+            <template slot-scope="scope">
+              <span>{{ scope.row.birthyear }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="'COL_17'" :min-width="12">
+            <template slot-scope="scope">
+              <span v-if="scope.row.col17">
                 {{
                   toStringDate(
-                    scope.row.created_at,
+                    scope.row.col17,
                     $t('common.formatDateTimeMoment')
                   )
                 }}
               </span>
             </template>
           </el-table-column>
-          <el-table-column :label="'Năm sinh'" :min-width="12">
-            <template slot-scope="scope">
-              <span>{{ scope.row.contentTypeName }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column :label="'COL_17'" :min-width="12">
-            <template slot-scope="scope">
-              <span>{{ scope.row.contentTypeName }}</span>
-            </template>
-          </el-table-column>
           <el-table-column :label="'COL_18'" :min-width="12">
             <template slot-scope="scope">
-              <span>{{ scope.row.contentTypeName }}</span>
+              <span v-if="scope.row.col18">
+                {{
+                  toStringDate(
+                    scope.row.col18,
+                    $t('common.formatDateTimeMoment')
+                  )
+                }}
+              </span>
             </template>
           </el-table-column>
           <el-table-column :label="'Điểm tín dụng'" :min-width="12">
             <template slot-scope="scope">
-              <span>{{ scope.row.contentTypeName }}</span>
+              <span>{{ scope.row.score }}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -177,13 +191,13 @@
             :min-width="12"
           >
             <template slot-scope="scope">
-              <el-tooltip
-                :content="'Chi tiết'"
-                placement="bottom"
-                :open-delay="500"
+              <el-button
+                size="small"
+                icon="el-icon-info"
+                plain
+                @click="handleDetail(scope.row)"
+                >Chi tiết</el-button
               >
-                <el-button size="small" icon="el-icon-info" plain></el-button>
-              </el-tooltip>
             </template>
           </el-table-column>
         </el-table>
@@ -204,6 +218,7 @@
 import { toStringDate } from '@/utils/datetime';
 import Pagination from '@/components/Pagination';
 import CityDistrictData from './city_district_data';
+import { filterUser } from '@/api/user';
 
 export default {
   components: { Pagination },
@@ -244,7 +259,7 @@ export default {
         total: 0,
         listQuery: {
           page: 1,
-          size: 20,
+          size: 5,
         },
       },
     };
@@ -263,17 +278,70 @@ export default {
   },
   created() {},
   methods: {
+    toStringDate,
+    formatPhone(phoneNumber) {
+      if (phoneNumber) {
+        if (phoneNumber.startsWith('0')) {
+          return '84' + phoneNumber.substring(1);
+        } else if (phoneNumber.startsWith('+84')) {
+          return phoneNumber.substring(1);
+        } else {
+          return phoneNumber;
+        }
+      } else {
+        return '';
+      }
+    },
     handleSearch() {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          this.isShowResult = true;
-          alert('submit!');
+          this.loading = true;
+          filterUser(this.formatPhone(this.form.phone))
+            .then((response) => {
+              if (response.data && response.data.length > 0) {
+                this.result.total = response.data.length;
+                this.result.listAll = response.data;
+              }
+            })
+            .catch(() => {
+              this.result.total = 0;
+              this.result.listAll = [];
+            })
+            .finally(() => {
+              this.getListResultPaging();
+              this.loading = false;
+            });
         } else {
           return false;
         }
       });
     },
-    getListResultPaging() {},
+    getListResultPaging() {
+      if (this.result.listAll.length > 0) {
+        this.result.list = this.result.listAll.slice(
+          (this.result.listQuery.page - 1) * this.result.listQuery.size,
+          this.result.listQuery.page * this.result.listQuery.size
+        );
+      } else {
+        this.result.list = [];
+      }
+    },
+    showIndex(index) {
+      if (this.result.listQuery) {
+        return (
+          (this.result.listQuery.page - 1) * this.result.listQuery.size +
+          index +
+          1
+        );
+      }
+      return index + 1;
+    },
+    handleDetail(data) {
+      this.$router.push({
+        name: 'searchInfo.userDetail',
+        params: { phoneNumber: data.phoneNum },
+      });
+    },
     getListDistrict() {
       if (this.form.city !== null && this.form.city !== undefined) {
         const temp = CityDistrictData.filter(
