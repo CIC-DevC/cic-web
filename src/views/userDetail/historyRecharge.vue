@@ -52,12 +52,12 @@
             <span>{{ showIndex(scope.$index) }}</span>
           </template>
         </el-table-column>
-        <el-table-column :label="'Loại thanh toán'" :min-width="16">
+        <el-table-column :label="'Loại thanh toán'" :min-width="31">
           <template slot-scope="scope">
             {{ scope.row.cOrV }}
           </template>
         </el-table-column>
-        <el-table-column :label="'Khoản thanh toán'" :min-width="30">
+        <el-table-column :label="'Khoản thanh toán'" :min-width="40">
           <template slot-scope="scope">
             <span>{{ formatCurrency(scope.row.feeCharge) }}</span>
           </template>
@@ -68,18 +68,6 @@
               {{
                 toStringDate(
                   scope.row.createdDate,
-                  $t('common.formatDateTimeMoment')
-                )
-              }}
-            </span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="'Lần cập nhật cuối cùng'" :min-width="25">
-          <template slot-scope="scope">
-            <span v-if="scope.row.modifiedDate">
-              {{
-                toStringDate(
-                  scope.row.modifiedDate,
                   $t('common.formatDateTimeMoment')
                 )
               }}
