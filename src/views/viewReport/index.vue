@@ -34,7 +34,9 @@
             </el-image>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="Báo cáo về tình hình sử dụng dịch vụ viễn thông">
+        <el-tab-pane
+          label="Báo cáo về tình hình sử dụng dịch vụ gọi và sử dụng Internet"
+        >
           <div class="tab-content">
             <el-image src="static/images/report_3.png" fit="cover">
               <div slot="placeholder" class="image-slot">
