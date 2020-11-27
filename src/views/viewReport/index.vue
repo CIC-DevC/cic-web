@@ -11,7 +11,7 @@
     <div class="tab-container">
       <el-tabs>
         <el-tab-pane label="Thông tin tổng quan">
-          <div style="display: flex; justify-content: center; padding: 20px">
+          <div class="tab-content">
             <el-image src="static/images/report_1.png" fit="cover">
               <div slot="placeholder" class="image-slot">
                 Đang tải<span class="dot">...</span>
@@ -22,8 +22,29 @@
             </el-image>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="Thông tin chi tiết">
-          <span>Developing</span>
+        <el-tab-pane label="Báo cáo về tình hình recharge và loan">
+          <div class="tab-content">
+            <el-image src="static/images/report_2.png" fit="cover">
+              <div slot="placeholder" class="image-slot">
+                Đang tải<span class="dot">...</span>
+              </div>
+              <div slot="error" class="image-slot">
+                <i class="el-icon-picture-outline"></i>
+              </div>
+            </el-image>
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="Báo cáo về tình hình sử dụng dịch vụ viễn thông">
+          <div class="tab-content">
+            <el-image src="static/images/report_3.png" fit="cover">
+              <div slot="placeholder" class="image-slot">
+                Đang tải<span class="dot">...</span>
+              </div>
+              <div slot="error" class="image-slot">
+                <i class="el-icon-picture-outline"></i>
+              </div>
+            </el-image>
+          </div>
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -67,5 +88,10 @@ export default {
   color: #303133;
   padding: 0 0 20px 0;
   text-align: center;
+}
+.tab-content {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
 }
 </style>
